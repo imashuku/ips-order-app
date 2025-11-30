@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { OrderPDF } from './OrderPDF';
 import { OrderItem } from '@/hooks/useOrderCalculator';
@@ -16,6 +17,20 @@ type Props = {
 };
 
 const PDFDownloadButton = ({ date, agentName, phoneNumber, address, items, calculations, disabled }: Props) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return (
+      <button className="flex items-center gap-2 bg-gray-300 text-white px-6 py-3 rounded-lg font-bold">
+        読み込み中...
+      </button>
+    );
+  }
+
   if (disabled) {
     return (
       <button disabled className="flex items-center gap-2 bg-gray-300 text-gray-500 px-6 py-3 rounded-lg cursor-not-allowed font-bold">
@@ -54,4 +69,3 @@ const PDFDownloadButton = ({ date, agentName, phoneNumber, address, items, calcu
 };
 
 export default PDFDownloadButton;
-
